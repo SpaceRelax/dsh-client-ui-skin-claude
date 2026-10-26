@@ -15,6 +15,18 @@ A Claude-style skin for the DSH Web GUI: warm-black canvas, clay accent, built-i
   - **System default**: leaves DSH fonts untouched
 - Slim scrollbars, clay selection/focus, pill badges
 - Light and dark variants that follow the system theme
+- Guarded `content-visibility: auto` for older offscreen conversation rows; keeps the last two rows fully rendered
+
+## Compatibility
+
+**0.3.0-next-compat** targets DSH NEXT (`@deepseek-ai/dsh-client-ui-primitives` 0.2.1-rc series):
+
+- `IconChevronDownOutline14` was removed from primitives → resolved via a `Regular → Medium → text ⌄ fallback` chain
+- The running-Turn shimmer now scopes to the native `[data-chat-running] [data-shimmer]` only (no longer hits every `role="status"` element)
+- Risky `[class*="…"]` fuzzy selectors narrowed in favor of verified DSH hooks; clay accents use `--dsw-alias-*` design tokens
+- Style injection is idempotent with generation-based ownership; repeated `apply()` / stale-context teardown no longer duplicates `<style>` nodes or removes a newer one
+
+Static regression checks: `node scripts/check.mjs`
 
 ## Fonts
 
@@ -32,17 +44,13 @@ Install: on Windows double-click each `.ttf` → **Install**; on macOS import wi
 
 ## Install
 
-From npm (recommended, prebuilt, no build permission needed):
+Install this fork's DSH NEXT compatibility branch (recommended):
 
 ```sh
-dsh plugin --profile web add @pakiknowledge/dsh-client-ui-skin-claude
+dsh plugin --profile web add github:SpaceRelax/dsh-client-ui-skin-claude#next-compat
 ```
 
-Or from GitHub:
-
-```sh
-dsh plugin --profile web add github:PAKIKNOWLEDGE/dsh-client-ui-skin-claude
-```
+The package name remains `@pakiknowledge/dsh-client-ui-skin-claude`, but this branch is not published to npm; installing by package name retrieves the original author's release.
 
 Restart `dsh web`, then refresh the page.
 

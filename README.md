@@ -15,6 +15,18 @@ Claude 风格的 DSH Web 界面皮肤：暖黑画布、陶橙点缀，内置 Ant
   - **系统默认**：不覆盖 DSH 字体
 - 细滚动条、陶橙选中 / 焦点、胶囊徽章
 - 亮 / 暗双主题，跟随系统切换
+- 较早消息行采用受限的 `content-visibility: auto` 跳过屏外渲染；保留最后两条消息正常渲染
+
+## 兼容性
+
+**0.3.0-next-compat** 针对 DSH NEXT（`@deepseek-ai/dsh-client-ui-primitives` 0.2.1-rc 系列）修复：
+
+- `IconChevronDownOutline14` 已从 primitives 移除 → 现按 `Regular → Medium → 文本 ⌄ 回退` 链解析
+- 运行中 Turn 的 shimmer 改为只作用于原生 `[data-chat-running] [data-shimmer]`（不再误伤所有 `role="status"` 元素）
+- 收窄高风险的 `[class*="…"]` 模糊选择器，改用已核实的 DSH 钩子；陶橙主色使用 `--dsw-alias-*` 设计 token
+- 样式注入幂等化并带 generation 所有权保护，重复 `apply()` / 旧上下文 teardown 不再产生重复 `<style>` 或误删新节点
+
+静态回归检查：`node scripts/check.mjs`
 
 ## 字体
 
@@ -32,17 +44,13 @@ Claude 风格的 DSH Web 界面皮肤：暖黑画布、陶橙点缀，内置 Ant
 
 ## 安装
 
-从 npm 安装（推荐，预构建免授权）：
+安装此 fork 的 DSH NEXT 兼容分支（推荐）：
 
 ```sh
-dsh plugin --profile web add @pakiknowledge/dsh-client-ui-skin-claude
+dsh plugin --profile web add github:SpaceRelax/dsh-client-ui-skin-claude#next-compat
 ```
 
-或从 GitHub 安装：
-
-```sh
-dsh plugin --profile web add github:PAKIKNOWLEDGE/dsh-client-ui-skin-claude
-```
+包名仍为 `@pakiknowledge/dsh-client-ui-skin-claude`，但此分支尚未发布到 npm；从 npm 按包名安装会拿到原作者的版本。
 
 装完重启 `dsh web`，刷新页面。
 

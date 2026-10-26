@@ -1,7 +1,7 @@
 {
   "name": "@pakiknowledge/dsh-client-ui-skin-claude",
   "description": "Claude-style skin for the dsh web GUI — warm-black canvas, clay accent, Anthropic Sans UI / Serif body font modes, follows the native light/dark theme",
-  "version": "0.2.1",
+  "version": "0.3.0-next-compat",
   "type": "module",
   "main": "lib/index.js",
   "exports": {
@@ -30,10 +30,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/PAKIKNOWLEDGE/dsh-client-ui-skin-claude.git"
+    "url": "https://github.com/SpaceRelax/dsh-client-ui-skin-claude.git"
   },
   "peerDependencies": {
     "react": "^18.2.0",
-    "@deepseek-ai/cordis": "^4.0.1"
+    "@deepseek-ai/cordis": "^4.0.1",
+    "@deepseek-ai/dsh-client-store": ">=0.2.0-rc.0",
+    "@deepseek-ai/dsh-client-ui-primitives": ">=0.2.0-rc.0"
   }
 }
