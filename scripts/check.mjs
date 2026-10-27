@@ -56,6 +56,15 @@ if (cssBody) {
   check('alias-link overridden in both themes', count(/--dsw-alias-link:\s*#/g) === 2)
   check('brand-new-color overridden in both themes', count(/--dsw-alias-brand-primary-new-colorprimary-new-color:\s*#/g) === 2)
   check('markdown-inline-code overridden in both themes', count(/--dsw-alias-markdown-inline-code:\s*#/g) === 2)
+  // Native dark tokens use body[data-ds-dark-theme] (0,1,1). Both the
+  // palette and body appearance must win independently of stylesheet order.
+  const darkBlocks = [...css.matchAll(/body\[data-dsh-claude\]\[data-ds-dark-theme\] \{([\s\S]*?)\}/g)].map((m) => m[1])
+  check('dark palette outranks native dark theme', darkBlocks.some((block) =>
+    /--dsw-alias-button-info-fill: #d97757/.test(block) &&
+    /--dsw-alias-state-business-primary: #d97757/.test(block) &&
+    /--dsw-alias-label-deep-diving: #d97757/.test(block)))
+  check('dark body appearance outranks native dark theme', darkBlocks.some((block) =>
+    /background-color: #141413/.test(block) && /color: #faf9f5/.test(block)))
   const lightBlock = (css.split('body[data-dsh-claude]:not([data-ds-dark-theme]) {')[1] || '').split("'}'")[0]
   const lightBody = lightBlock.slice(0, lightBlock.indexOf('}'))
   check('light block defines its own shadow-lv2', /--dsw-shadow-lv2/.test(lightBody))
